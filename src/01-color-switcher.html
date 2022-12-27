@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Color switcher</title>
     <link rel="stylesheet" href="css/common.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.korzh.com/metroui/v4/css/metro-all.min.css"
+    />
   </head>
   <body>
     <p><a href="index.html">Go back</a></p>
-
-    <button type="button" data-start>Start</button>
-    <button type="button" data-stop>Stop</button>
+    <div class="pad">
+      <button type="button" data-start class="button shadowed success large">
+        Start
+      </button>
+      <button type="button" data-stop class="button shadowed alert large">
+        Stop
+      </button>
+    </div>
 
     <script src="js/01-color-switcher.js" type="module"></script>
   </body>

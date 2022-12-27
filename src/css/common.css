@@ -16,3 +16,7 @@ img {
   display: block;
   max-width: 100%;
 }
+.pad {
+  padding-left: 45%;
+  padding-top: 50%;
+}
