@@ -28,3 +28,5 @@ function stopChangeColor() {
     clearInterval(ourIntervalId)
     refs.buttonStart.disabled = false;
 }
+
+console.log(1);
