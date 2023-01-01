@@ -43,7 +43,6 @@ const OUR_DELAY = 1000;
 
 
 
-console.log(11);
 
 
 const options = {
