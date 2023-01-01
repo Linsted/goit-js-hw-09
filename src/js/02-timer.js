@@ -1,6 +1,9 @@
 
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
+import "notiflix/dist/notiflix-3.2.5.min.css";  
+
 
 const refs = {
   datePicker: document.querySelector('#datetime-picker'),
@@ -31,19 +34,16 @@ function convertMs(ms) {
 }
 
 
-
-
 let currentMs = 0;
 refs.buttonStart.disabled = true;
 let metricsObj = {};
 let intervalId;
+const OUR_DELAY = 1000;
 
 
 
 
-console.log(9);
-
-
+console.log(11);
 
 
 const options = {
@@ -54,14 +54,15 @@ const options = {
   onClose(selectedDates) {
       
     if (selectedDates[0].getTime() < options.defaultDate.getTime())
-    { return alert("Please choose a date in the future") };
+    { return Notiflix.Notify.failure('Please choose a date in the future'); };
     refs.buttonStart.disabled = false;   
     
     refs.buttonStart.addEventListener('click', () => {
       intervalId = setInterval(() => {
        currentMs = selectedDates[0].getTime() - new Date().getTime(); 
-       console.log(currentMs);
-       
+    
+       if (currentMs < 1000) {
+         clearInterval(intervalId)};
        
         metricsObj = convertMs(currentMs);
         refs.spanSeconds.textContent = metricsObj.seconds.toString().padStart(2, '0');
@@ -69,19 +70,15 @@ const options = {
         refs.spanHours.textContent = metricsObj.hours.toString().padStart(2, '0');
         refs.spanDays.textContent = metricsObj.days.toString().padStart(2, '0');
       
-      }, 1000)
-})
-    
-
-
+      }, OUR_DELAY)})
 
   },
 };
+
 flatpickr(refs.datePicker, options)
 
 
-if (currentMs === 0) {
-         clearInterval(intervalId)};
+
 
 
 
