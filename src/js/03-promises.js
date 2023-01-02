@@ -2,6 +2,12 @@ import Notiflix from 'notiflix';
 import "notiflix/dist/notiflix-3.2.5.min.css";  
 
 
+let firstDelay;
+let delayStep;
+let amount;
+let ourDelay;
+let ourDelayTimer;
+
 const refs = {
   inputDelay: document.querySelector('[name="delay"]'),
   inputStep: document.querySelector('[name="step"]'),
@@ -10,30 +16,57 @@ const refs = {
   form: document.querySelector('.form'),
 }
 
-function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
-}
 
-let firstDelay;
-let delayStep;
-let amount;
+refs.form.addEventListener('submit', onSubmit)
 
 
-function onFormSubmit(e) {
+function onSubmit(e) {
   e.preventDefault();
-  
   firstDelay = refs.inputDelay.value;
   delayStep = refs.inputStep.value;
   amount = refs.inputAmount.value;
-  console.log(firstDelay, delayStep, amount );
+  ourDelayTimer = +firstDelay;
+  ourDelay = +firstDelay;
+
+ 
+  
+  
+
+
+  for (let i = 1; i <= amount; i++) {
+    
+    setTimeout(() => {
+      
+      createPromise(i, ourDelay)
+      .then(({ position, delay }) => {
+    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);})
+  .catch(({ position, delay }) => {
+    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  });
+    ourDelay += +delayStep
+    }, ourDelayTimer)
+    ourDelayTimer += +delayStep
+    
+  }
+
 
 }
 
 
-console.log(7);
-refs.form.addEventListener('submit', onFormSubmit)
+function createPromise(position, delay) {
+
+
+  const shouldResolve = Math.random() > 0.3;
+
+  const promise = new Promise((resolve, reject) => {
+      if (shouldResolve) {
+        resolve({ position, delay })
+      } else {
+      reject({ position, delay })}
+  })
+
+  return promise;
+  
+  
+}
+
