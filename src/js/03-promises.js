@@ -25,13 +25,10 @@ function onSubmit(e) {
   firstDelay = refs.inputDelay.value;
   delayStep = refs.inputStep.value;
   amount = refs.inputAmount.value;
-  ourDelayTimer = +firstDelay;
-  ourDelay = +firstDelay;
+  ourDelayTimer = Number(firstDelay);
+  ourDelay = Number(firstDelay);
 
  
-  
-  
-
 
   for (let i = 1; i <= amount; i++) {
     
@@ -43,9 +40,9 @@ function onSubmit(e) {
   .catch(({ position, delay }) => {
     Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-    ourDelay += +delayStep
+    ourDelay += Number(delayStep)
     }, ourDelayTimer)
-    ourDelayTimer += +delayStep
+    ourDelayTimer += Number(delayStep)
     
   }
 
@@ -54,6 +51,8 @@ function onSubmit(e) {
 
 
 function createPromise(position, delay) {
+
+  
 
 
   const shouldResolve = Math.random() > 0.3;
