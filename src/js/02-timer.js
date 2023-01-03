@@ -14,6 +14,15 @@ const refs = {
   spanHours: document.querySelector(`span[data-hours]`),
 }
 
+
+let currentMs = 0;
+refs.buttonStart.disabled = true;
+let metricsObj = {};
+let intervalId;
+const OUR_DELAY = 1000;
+let selectedDate;
+
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -34,31 +43,28 @@ function convertMs(ms) {
 }
 
 
-let currentMs = 0;
-refs.buttonStart.disabled = true;
-let metricsObj = {};
-let intervalId;
-const OUR_DELAY = 1000;
-
-
-
-
-
-
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-      
+    selectedDate = selectedDates[0].getTime();
     if (selectedDates[0].getTime() < options.defaultDate.getTime())
     { return Notiflix.Notify.failure('Please choose a date in the future'); };
     refs.buttonStart.disabled = false;   
     
-    refs.buttonStart.addEventListener('click', () => {
+    
+
+  },
+};
+
+
+refs.buttonStart.addEventListener('click', () => {
+  refs.buttonStart.disabled = true;
+  refs.datePicker.disabled = true;
       intervalId = setInterval(() => {
-       currentMs = selectedDates[0].getTime() - new Date().getTime(); 
+       currentMs = selectedDate - new Date().getTime(); 
     
        if (currentMs < 1000) {
          clearInterval(intervalId)};
@@ -71,10 +77,9 @@ const options = {
       
       }, OUR_DELAY)})
 
-  },
-};
 
 flatpickr(refs.datePicker, options)
+
 
 
 
